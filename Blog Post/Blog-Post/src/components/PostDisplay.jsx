@@ -1,8 +1,8 @@
-const PostDisplay = () => {
+const PostDisplay = ({ title, description }) => {
     return (
         <div>
-            <h2>Title</h2>
-            <p>Description</p>
+            <h2>{title}</h2>
+            <p>{description}</p>
         </div>
     )
 }
