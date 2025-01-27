@@ -3,59 +3,50 @@ import React, { useState } from "react";
 const FeedbackSystem = () => {
     const aspects = ["Readability", "Performance", "Security", "Documentation", "Testing"];
 
-    // Usando um objeto para armazenar votos para cada aspecto
-    // Estamos declarando nosso state com valor objeto inical
-
     const [votes, setVotes] = useState(
-        aspects.reduce((acc, aspects) => {
-            acc[aspects] = { upvote: 0, downvote: 0 }
-            return acc
+        aspects.reduce((acc, aspect) => {
+            acc[aspect] = { upvote: 0, downvote: 0 };
+            return acc;
         }, {})
-    )
-    
-    // Passamos 2 parametros para a nossa função, aspect e type
+    );
+
     const handleVote = (aspect, type) => {
-        setVotes(prevVotes => ({ // passamos o prevVotes que ele vai pegar o valor atual do nosso state 
-            ...prevVotes, // usamos o spread para trazer os valores anteores
+        setVotes(prevVotes => ({
+            ...prevVotes,
             [aspect]: {
                 ...prevVotes[aspect],
-                [type]: prevVotes[aspect][type] + 1 // Dependendo do tipo que for passado vai acrecentar +1
+                [type]: prevVotes[aspect][type] + 1
             }
-
-        }))
-    }
+        }));
+    };
 
     return (
-        <div className="my-0 mx-auto text-center w-mx-1200">
-            <div className="flex wrap justify-content-center mt-30 gap-30">
-                {
-                    aspects.map((item, index) => (
-                        <div key={index} className="pa-10 w-300 card">
-                            <h2>{item}</h2>
-                            <div className="flex my-30 mx-0 justify-content-around">
-                                <button
-                                    className="py-10 px-15"
-                                    data-testid={`upvote-Sbtn-${index}`}
-                                    onClick={() => handleVote(item, 'upvote')}>
-                                    👍 Upvote
-                                </button>
-                                <button
-                                    className="py-10 px-15 danger"
-                                    data-testid={`downvote-btn-${index}`}
-                                    onClick={() => handleVote(item, 'downvote')}>
-                                    👎 Downvote
-                                </button>
-                            </div>
-                            <p className="my-10 mx-0" data-testid={`upvote-count-${index}`}>
-                                Upvotes: <strong>{votes[item]?.upvote || 0}</strong>
-                            </p>
-                            <p className="my-10 mx-0" data-testid={`downvote-count-${index}`}>
-                                Downvotes: <strong>{votes[item]?.downvote || 0}</strong>
-                            </p>
-                        </div>
-                    ))
-                }
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+            {aspects.map((item, index) => (
+                <div key={index} className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+                    <h2 className="text-2xl font-semibold mb-4">{item}</h2>
+                    <div className="flex gap-4 mb-6">
+                        <button
+                            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none"
+                            onClick={() => handleVote(item, 'upvote')}
+                        >
+                            👍 Upvote
+                        </button>
+                        <button
+                            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none"
+                            onClick={() => handleVote(item, 'downvote')}
+                        >
+                            👎 Downvote
+                        </button>
+                    </div>
+                    <p className="text-lg mb-2">
+                        Upvotes: <strong>{votes[item]?.upvote || 0}</strong>
+                    </p>
+                    <p className="text-lg">
+                        Downvotes: <strong>{votes[item]?.downvote || 0}</strong>
+                    </p>
+                </div>
+            ))}
         </div>
     );
 };

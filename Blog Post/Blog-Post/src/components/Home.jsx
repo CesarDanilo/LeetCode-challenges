@@ -26,6 +26,17 @@ const Home = () => {
         setError("");
     }
 
+    function handleDeletePost(index) {
+        try {
+            console.log(index)
+            const updatePosts = posts.slice()
+            updatePosts.splice(index, 1);
+            setPosts(updatePosts);
+        } catch (e) {
+            console.log("ERROR: ", e)
+        }
+    }
+
     return (
         <div>
             <div>
@@ -38,12 +49,10 @@ const Home = () => {
                     posts.map((item, index) => (
                         <div key={index}>
                             <PostDisplay title={item.title} description={item.description} />
-                            <button type="submit">Delete</button>
+                            <button type="submit" onClick={() => { handleDeletePost(index) }}>Delete</button>
                         </div>
                     ))
                 }
-
-
             </div>
         </div>
     )
